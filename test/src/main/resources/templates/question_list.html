@@ -1,0 +1,51 @@
+<html layout:decorate="~{layout}">
+<div class="container my-5" layout:fragment="content">
+	<div class="row">
+		<div class="col-12 text-center mb-5">
+			<h1>질문 게시판이에요!</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">번호</th>
+						<th scope="col">제목</th>
+						<th scope="col">작성일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="question, loop : ${paging}">
+						<th scope="row">[[${paging.getTotalElements - (paging.number * paging.size) - loop.index}]]</th>
+						<td><a th:href="@{|/question/detail/${question.id}|}">[[${question.subject}]]</a><span class="badge badge-pill badge-primary" th:if="${question.answerList.size >=1}">[[${question.answerList.size}]]</span></td>
+						<td th:text="${#temporals.format(question.createDate,'YYYY년 MM일 DD일 hh:mm')}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item" th:classappend="${!paging.hasPrevious} ? ' disabled'">
+						<a class="page-link" th:href="@{|?page=${paging.number-1}|}" aria-label="Previous">
+							<span aria-hidden="true">이전</span>
+						</a>
+					</li>
+					
+					<li class="page-item" th:each="page : ${#numbers.sequence(0,paging.totalPages - 1)}" th:classappend="${page == paging.number} ? 'active'"
+					th:if="${page >= paging.number - 5 and page <= paging.number +5 }">
+						<a class="page-link" th:href="@{|?page=${page}|}">[[${page}]]</a>
+					</li>
+					
+					<li class="page-item" th:classappend="${!paging.hasNext} ? ' disabled'">
+						<a class="page-link" th:href="@{|?page=${paging.number+1}|}" aria-label="Next">
+							<span aria-hidden="true">다음</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<a th:href="@{/question/create}" class="btn btn-secondary">질문 등록하기</a>
+		</div>
+	</div>
+</div>
+
+</html>

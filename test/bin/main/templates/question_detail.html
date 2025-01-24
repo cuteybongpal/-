@@ -1,0 +1,42 @@
+<html layout:decorate="~{layout}">
+<div class="container my-5" layout:fragment="content">
+	<div class="row mb-2">
+		<div class="col-12 text-center">
+			<h1>[[${question.subject}]]</h1>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-body my-1 text-center">
+			[[${question.content}]]
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-12">
+			<form th:action="@{|../../answer/create/${question.id}|}" method="post" th:object="${answerForm}">
+				<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+				<div class="form-group">
+					<textarea class="form-control" name="content" id="" cols="30" rows="10"
+						th:field="*{content}"></textarea>
+				</div>
+				<input type="submit" value="답변 등록" />
+			</form>
+		</div>
+	</div>
+
+	<hr />
+	<h4>[[${#lists.size(question.answerList)}]]개의 답변이 있습니다.</h4>
+	<div class="row">
+		<div class="col-12" th:each="answer : ${answerList}">
+			<div class="card my-2">
+				<div class="card-body">
+					[[${answer.content}]]
+					<span class="badge badge-primary float-right">[[${#temporals.format(answer.createDate,'YYYY년 MM일
+						DD일 hh:mm')}]]</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>
