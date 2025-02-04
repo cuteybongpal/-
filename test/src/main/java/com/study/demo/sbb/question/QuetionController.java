@@ -62,7 +62,7 @@ public class QuetionController {
 		}
 		Question q = new Question();
 		q.setSubject(questionForm.getSubject());
-		q.setContent(questionForm.getSubject());
+		q.setContent(questionForm.getContent());
 		q.setCreateDate(LocalDateTime.now());
 		this.questionService.saveQuestion(q);
 		return "redirect:/question/list";

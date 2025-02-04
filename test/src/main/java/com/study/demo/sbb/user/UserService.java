@@ -17,7 +17,7 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 	
 	public SiteUser getUser(String username){
-		return this.userRepository.findByUsername(username);
+		return this.userRepository.findByUsername(username).get();
 	}
 	
 	public SiteUser create(String username, String email, String password) {
